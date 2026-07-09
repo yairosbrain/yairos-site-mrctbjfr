@@ -1,0 +1,246 @@
+/* Global Styles & Resets */
+:root {
+    --text-dark: #2D2A32;
+    --bg-peach: #FFF3E0;
+    --bg-light-blue: #E0F7FA;
+    --bg-lilac: #F3E5F5;
+    --bg-vanilla: #FFFDE7;
+    --button-gradient-start: #FF6B6B;
+    --button-gradient-end: #FFD93D;
+    --button-text-dark: #000000; /* Changed for better contrast */
+    --compliment-box-bg: rgba(255, 255, 255, 0.8);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --border-radius-large: 24px;
+    --border-radius-button: 50px;
+    --transition-speed: 0.3s ease-out;
+    --transition-fast: 0.15s ease-out;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Heebo', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--bg-peach); /* Initial background */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    line-height: 1.6;
+    transition: background-color var(--transition-speed);
+    padding: 2rem 1rem;
+    position: relative; /* For confetti positioning */
+    overflow-x: hidden;
+}
+
+/* Header */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+header h1 {
+    font-size: clamp(2.5rem, 8vw, 3.5rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    position: relative;
+    display: inline-block; /* For the emoji to be part of the text line */
+}
+
+header h2 {
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    font-weight: 500;
+    color: var(--text-dark);
+    opacity: 0.8;
+}
+
+/* Main Content */
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+#compliment-container {
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+}
+
+#compliment-box {
+    background-color: var(--compliment-box-bg);
+    border-radius: var(--border-radius-large);
+    padding: 2.5rem 2rem;
+    box-shadow: var(--shadow-soft);
+    min-height: 200px; /* Ensure a consistent height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+    overflow: hidden; /* For compliment text animation */
+}
+
+#compliment-text {
+    font-size: clamp(1.4rem, 5vw, 1.75rem); /* ~28px on larger screens */
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.5;
+    padding: 0.5rem;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out; /* For animation */
+}
+
+/* Compliment text animation classes */
+.compliment-leave {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.compliment-enter {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Button */
+#generate-button {
+    background-image: linear-gradient(45deg, var(--button-gradient-start), var(--button-gradient-end));
+    border: none;
+    border-radius: var(--border-radius-button);
+    color: var(--button-text-dark); /* Changed to dark text for contrast */
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    font-weight: 700;
+    padding: 1.2rem 3rem;
+    cursor: pointer;
+    /* outline: none; -- Removed for accessibility */
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed), background-image var(--transition-speed);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.2); /* Adjusted for dark text */
+}
+
+#generate-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+    background-image: linear-gradient(45deg, var(--button-gradient-end), var(--button-gradient-start)); /* Slight gradient shift on hover */
+}
+
+#generate-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+}
+
+#generate-button:focus-visible { /* Added for keyboard accessibility */
+    outline: 2px solid var(--text-dark);
+    outline-offset: 4px;
+    box-shadow: 0 0 0 6px rgba(255, 107, 107, 0.6);
+}
+
+#generate-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--text-dark);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding: 0 1rem;
+}
+
+/* Confetti Styles */
+.confetti {
+    position: fixed; /* Use fixed to ensure it's not relative to a container */
+    width: 10px;
+    height: 10px;
+    background-color: var(--button-gradient-start);
+    border-radius: 50%; /* Mix of circles and squares */
+    opacity: 0;
+    pointer-events: none;
+    animation: fall 1.5s ease-out forwards, fade-out 1.5s ease-out forwards;
+    z-index: 9999;
+}
+
+.confetti.square {
+    border-radius: 2px;
+}
+
+@keyframes fall {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) rotate(var(--deg));
+        opacity: 0;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    body {
+        padding: 1.5rem 0.5rem;
+    }
+
+    header h1 {
+        font-size: 2.2rem;
+    }
+
+    header h2 {
+        font-size: 1rem;
+    }
+
+    #compliment-box {
+        padding: 2rem 1rem;
+        min-height: 150px;
+    }
+
+    #compliment-text {
+        font-size: 1.25rem;
+    }
+
+    #generate-button {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+    }
+}
